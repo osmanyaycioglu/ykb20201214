@@ -1,0 +1,5 @@
+server:
+  port: 9090
+  tomcat:
+    accept-count: 200
+    processor-cache: 250
