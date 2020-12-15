@@ -83,7 +83,7 @@ public class MyRest {
     }
 
     @PostMapping("/hello8")
-    public String hello8(@Validated @RequestBody final Employ ee emp,
+    public String hello8(@Validated @RequestBody final Employee emp,
                          final HttpServletRequest http) {
         //        if (emp.getAge() > 120) {
         //            throw new IllegalArgumentException("age 120 den büyük olamaz");
