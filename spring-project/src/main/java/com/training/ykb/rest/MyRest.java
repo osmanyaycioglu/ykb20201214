@@ -3,8 +3,10 @@ package com.training.ykb.rest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.training.ykb.rest.error.ErrorObj;
 
 //@Controller
 //@ResponseBody
@@ -91,6 +96,18 @@ public class MyRest {
         this.em.addEmployee(emp);
         return "Hello 8 : " + emp;
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorObj handle(final IllegalArgumentException exp) {
+        ErrorObj errorObjLoc = new ErrorObj().boundedContext("BD")
+                                             .microservice("MyService")
+                                             .subDomain("CRM")
+                                             .description(exp.getMessage())
+                                             .cause(101);
+        return errorObjLoc;
+    }
+
 
 }
 
