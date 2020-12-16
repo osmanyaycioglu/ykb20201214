@@ -21,4 +21,9 @@ public class OrderRest {
         return this.os.placeOrder(order);
     }
 
+    @PostMapping("/place3")
+    public String placeOrder3(@RequestBody final Order order) {
+        return this.os.placeOrder3(order);
+    }
+
 }
