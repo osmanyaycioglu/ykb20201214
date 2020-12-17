@@ -2,6 +2,7 @@ package com.training.ykb.facade;
 
 import java.util.List;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,6 +12,7 @@ import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import com.training.ykb.accounting.client.IAccountingClient;
 import com.training.ykb.error.RestException;
+import com.training.ykb.order.models.Notification;
 import com.training.ykb.order.models.Order;
 import com.training.ykb.order.models.PaymentRequest;
 
@@ -21,6 +23,9 @@ public class AccountingFacade {
     private RestTemplate      rt;
 
     @Autowired
+    private RabbitTemplate    rabT;
+
+    @Autowired
     private EurekaClient      ec;
 
     @Autowired
@@ -29,8 +34,15 @@ public class AccountingFacade {
     public String pay(final Order order) throws RestException {
         PaymentRequest pr = new PaymentRequest();
         pr.setOrderId(1);
-        pr.setAmount(10_000);
-        return this.iac.pay(pr);
+        pr.setAmount(100);
+        String payLoc = this.iac.pay(pr);
+        Notification notification = new Notification();
+        notification.setDestination("503424234");
+        notification.setMessage("Payment success . in 30 minutes ");
+        this.rabT.convertAndSend("notify_exchange",
+                                 "notify_request",
+                                 notification);
+        return payLoc;
     }
 
     public String payOld(final Order order) {
