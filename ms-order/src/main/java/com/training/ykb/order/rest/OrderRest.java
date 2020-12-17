@@ -1,11 +1,13 @@
 package com.training.ykb.order.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.ykb.error.RestException;
 import com.training.ykb.order.models.Order;
 import com.training.ykb.service.OrderService;
 
@@ -17,13 +19,14 @@ public class OrderRest {
     private OrderService os;
 
     @PostMapping("/place")
-    public String placeOrder(@RequestBody final Order order) {
+    public String placeOrder(@Validated @RequestBody final Order order) throws RestException {
         return this.os.placeOrder(order);
     }
 
-    @PostMapping("/place3")
-    public String placeOrder3(@RequestBody final Order order) {
-        return this.os.placeOrder3(order);
+    @PostMapping("/placeOld")
+    public String placeOrderOld(@Validated @RequestBody final Order order) {
+        return this.os.placeOrderOld(order);
     }
+
 
 }

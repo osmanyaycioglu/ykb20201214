@@ -10,6 +10,7 @@ import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import com.training.ykb.accounting.client.IAccountingClient;
+import com.training.ykb.error.RestException;
 import com.training.ykb.order.models.Order;
 import com.training.ykb.order.models.PaymentRequest;
 
@@ -25,14 +26,14 @@ public class AccountingFacade {
     @Autowired
     private IAccountingClient iac;
 
-    public String pay3(final Order order) {
+    public String pay(final Order order) throws RestException {
         PaymentRequest pr = new PaymentRequest();
         pr.setOrderId(1);
-        pr.setAmount(100);
+        pr.setAmount(10_000);
         return this.iac.pay(pr);
     }
 
-    public String pay(final Order order) {
+    public String payOld(final Order order) {
         PaymentRequest pr = new PaymentRequest();
         pr.setOrderId(1);
         pr.setAmount(100);

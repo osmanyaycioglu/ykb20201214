@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.training.ykb.error.RestException;
 import com.training.ykb.order.models.PaymentRequest;
 
 @FeignClient(name = "ACCOUNTING")
@@ -11,5 +12,5 @@ import com.training.ykb.order.models.PaymentRequest;
 public interface IAccountingClient {
 
     @PostMapping("/payment/request")
-    public String pay(final PaymentRequest pr);
+    public String pay(final PaymentRequest pr) throws RestException;
 }

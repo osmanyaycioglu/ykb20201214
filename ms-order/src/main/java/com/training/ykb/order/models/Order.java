@@ -2,17 +2,27 @@ package com.training.ykb.order.models;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 public class Order {
 
-    private long         orderId;
+    @NotNull
+    @Positive
+    private Long         orderId;
+    @Size(min = 5, max = 20)
+    @NotNull
     private String       name;
+    @NotNull
+    @Size(min = 1)
     private List<String> meals;
 
-    public long getOrderId() {
+    public Long getOrderId() {
         return this.orderId;
     }
 
-    public void setOrderId(final long orderIdParam) {
+    public void setOrderId(final Long orderIdParam) {
         this.orderId = orderIdParam;
     }
 
